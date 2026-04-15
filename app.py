@@ -21,9 +21,10 @@ app.layout = html.Div(style={
     "fontFamily": "Arial"
 }, children=[
 
-    # Header
+    # ✅ Header (added id)
     html.H1(
         "Soul Foods Sales Dashboard",
+        id="header",
         style={
             "textAlign": "center",
             "color": "#333"
@@ -65,16 +66,13 @@ app.layout = html.Div(style={
 )
 def update_chart(selected_region):
 
-    # Filter data
     if selected_region == "all":
         filtered_df = df
     else:
         filtered_df = df[df["region"] == selected_region]
 
-    # Aggregate
     filtered_df = filtered_df.groupby("date")["sales"].sum().reset_index()
 
-    # Create figure
     fig = px.line(
         filtered_df,
         x="date",
@@ -82,7 +80,6 @@ def update_chart(selected_region):
         title=f"Sales Trend ({selected_region.capitalize()})"
     )
 
-    # Add vertical line (safe version)
     fig.add_shape(
         type="line",
         x0="2021-01-15",
